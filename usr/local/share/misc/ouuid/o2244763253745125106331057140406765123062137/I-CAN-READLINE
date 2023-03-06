@@ -1,0 +1,389 @@
+# I-CAN-READLINE
+# Copyright 2023 D. Michael Parrish
+# Licensed under the terms of AGPL3
+# <https://www.gnu.org/licenses/agpl-3.0.html>
+
+Line Editing with Beohome, Bash, and Konsole
+============================================
+
+*By Example*
+
+        ________________________
+
+        The advanced features
+        available in a terminal
+        / console line editor
+        vary with the shell,
+        terminal, user settings,
+        keyboard mapping, etc.
+        This document reflects
+        the current state of
+        affairs on our server.
+        ________________________
+
+
+
+Getting Back to Abnormal (Why Be Normal?)
+-----------------------------------------
+
+Vi has a mode called Normal Mode. We will call
+the state that the line editor is in just after
+prompting with the primary prompt (PS1) Abnormal
+Mode.
+
+From Abnormal Mode, type (herein, the caret, ^,
+will indicate the cursor position and the $ will
+indicate a prompt):
+
+    $ # this is a test
+                      ^
+
+Starting from any responsive command line, press
+[ESC] to enter Normal Mode---you might need to
+press [ESC] multiple times (three?) depending on
+what other keys you pressed recently. Once
+Normal Mode is entered, I'm not sure how to get
+back to a "fresh" prompt except:
+
+From any mode (including Vi Insert mode): Press
+[ESC] to enter Vi Normal mode (the cursor moves
+left one space).
+
+    $ # this is a test
+                     ^
+
+Then press [0] (zero) to move the cursor to the
+beginning of the line. Mnemonic: zero often
+indicates the first element of an array.
+
+    $ # this is a test
+      ^
+
+Then press [D] (dee) to delete all characters to
+the RIGHT of the cursor as well as the character
+at the cursor.
+     _
+    $ 
+      ^
+
+Then, press [ENTER].
+
+And you have a "fresh" prompt.
+
+The Normal-Mode commands `0` and `D` are
+commands all by themselves. You can use them
+alone or in sequence with other commands.
+
+
+
+Why Be Normal?
+--------------
+
+If you try anything fancy from Abnormal Mode,
+the line editor gets into an unknown (to me)
+state. But we can always get back to Normal
+Mode, as long as the line editor is responsive.
+That's why be normal.
+
+
+
+Interjection
+------------
+
+But you can't do much typing in Normal Mode. And
+we want to type. So, from Normal Mode, press [i]
+(lower case) to enter Vi Insert mode.
+
+In Insert Mode, pressing any of the following
+keys (with or without SHIFT) should not result
+in any surprises (TAB and ENTER are intentionall
+omitted):
+
+
+
+`   1   2   3   4   5   6   7   8   9   0   -   =   BACKSPACE
+      Q   W   E   R   T   Y   U   I   O   P   [   ]   \   
+CAPS   A   S   D   F   G   H   J   K   L   ;   '
+SHIFT    Z   X   C   V   B   N   M   ,   .   /   SHIFT 
+
+
+
+This should give you access to any of the
+following symbols as well, assuming you have an
+ANSI or ISO keyboard:
+
+
+
+~   !   @   #   $   %   ^   &   *   (   )   _   +
+      q   w   e   r   t   y   u   i   o   p   {   }   |
+       a   s   d   f   g   h   j   k   l   :   "
+         z   x   c   v   b   n   m   <   >   ?
+
+
+
+Let's create a file to work with:
+
+    $ ls /bin > LIST
+
+
+
+Backing Up
+----------
+
+Suppose we have a stray-character typo at the
+beginning of a word:
+
+    $ hhead LIST
+                ^
+
+We can enter Normal Mode by pressing [ESC].
+
+Then, we can press the [b] (lower case) to move
+the cursor the beginning of the word before the
+cursor. Mnemonic: b-beginning-before.
+
+    $ hhead LIST
+            ^
+
+And again:
+
+    $ hhead LIST
+      ^
+
+We can delete the character at the current
+cursor position by pressing [x] (lower-case):
+
+    $ head LIST
+      ^
+
+And then press [ENTER] to execute the command.
+
+Suppose we had the option in the wrong place:
+
+    $ head LIST -20
+                   ^
+
+We can press [ESC] to enter Vi Normal Mode. Then
+[B] (upper-case) to move the cursor to the
+beginning of the WORD before the cursor.
+Mnemonic: B-BEGINNING-BEFORE.
+
+    $ head LIST -20
+                ^
+
+(Vi mode has two senses of "word." They are
+called "word" and "WORD"---all caps--- in the
+Vim documentation.)
+
+Then [h] (lower case) to move the cursor LEFT
+one character.
+
+    $ head LIST -20
+               ^
+
+Then [D] (upper case) to delete all the
+characters to the right of the cursor
+(inclusive).
+
+    $ head LIST
+           ^
+
+Then [b] to move the cursor back one word
+
+    $ head LIST
+           ^
+
+Then [h] to move the cursor LEFT one character.
+
+    $ head LIST
+          ^
+
+Finally, press [P] (upper case) to put the
+deleted text at the cursor position (remember
+that the first deleted character was a space):
+
+    $ head -20 LIST
+             ^
+
+Press [ENTER] to execute the command.
+
+
+
+Moving Back and Forth
+---------------------
+
+You can also move the cursor forward.
+
+Try typing in (*without* pressing [ENTER]):
+
+    $ # "What about the R-O-U-S'es?"
+                                    ^
+
+Then press [ESC] to enter Vi Normal Mode.
+
+Press [B] (upper case) a bunch of times until
+the cursor is at the beginning of the first
+"WORD."
+
+Now, press [E] (upper case) a bunch of times to
+move the cursor to the END of the WORD to the
+RIGHT of the cursor. Mnemonic: E-END.
+
+Now, press [b] (lower case) a bunch of times to
+move the cursor back to the beginning of the
+first word.
+
+Now, press [e] (lower case) a bunch of time to
+move the cursor to the end of the last word, one
+word at a time. Mnemonic: e-end.
+
+Now, press [0] to move the cursor to the
+beginning of the line.
+
+    $ # "What about the R-O-U-S'es?"
+      ^
+
+And press [$] (SHIFT-4 on an ANSI or ISO
+keyboard.) Mnemonic: The $ character is used to
+indicate end-of-line in a regular expression;
+see also <https://stackoverflow.com/questions/
+19521408/vim-why-for-end-of-line>
+
+    $ # "What about the R-O-U-S'es?"
+                                   ^
+
+Now, press [h] (lower case) a bunch of times to
+move the cursor to the LEFT one character at a
+time. Mnemonic: The "H" key is just LEFT of your
+right hand when in home position.
+
+Now, press [l] (lower case el) a bunch of times
+to move the cursor to the RIGHT one character at
+a time. Mnemonic: The "L" key is the RIGHT-most
+letter when your right hand in home position.
+
+Mnemonic: The "correct" arrangement for cursor
+control keys is:
+
+
+
+        [<] [v] [^] [>]
+         H   J   K   L
+
+
+
+Another Case
+------------
+
+Suppose you entered a letter or word in the
+wrong case (*nix is case sensitive):
+
+    $ head list
+               ^
+
+Press [ESC] to enter Vi Normal Mode, then [b] to
+move the cursor to the beginning of "list."
+
+    $ head list
+           ^
+
+Now, press [~] (tilde, SHIFT-` on an ANSI
+keyboard, SHIFT-# on an ISO keyboard) four
+times. This has the effect of switchin the case
+(as in upper-case and lower-case) of the
+character under the cursor, then advancing the
+cursor one position (but not past the end of the
+line).
+
+
+
+The Replacements
+----------------
+
+Suppose you have a wrong-character typo:
+
+    $ head LISP
+               ^
+
+Press [ESC] to enter Vi Normal Mode and use the
+cursor movements discussed above to set the
+cursor position at the character to be
+corrected.
+
+    $ head LISP
+              ^
+
+Now press [r] (lower-case), then the correct
+character ("T" in this case). Mnemonic:
+r-replace one character.
+
+Suppose you have multiple characters wrong:
+
+    $ tail LIST
+               ^
+
+---Pretend you meant "head" instead of "tail".
+
+Move the cursor:
+
+    $ tail LIST
+      ^
+
+The press [R] (upper-case) to enter Vi Replace
+Mode (Insert and Replace modes are the two
+most-used modes in word processors). Then, type
+the correct characters:
+
+    $ head LIST
+          ^
+
+
+
+Transpose
+---------
+
+Another common typo is transposition. We can
+correct a transposition error of two characters
+using two keystrokes (once the cursor is set):
+
+    $ head LSIT
+               ^
+
+Set the cursor position to the first character
+of the two-character typo:
+
+    $ head LSIT
+            ^
+
+Press [x] (lower-case), then [p] (lower-case).
+
+    $ head LIST
+             ^
+
+This works by deleting (x) the "S" to a register
+(a.k.a. clipboard), then putting (p) the
+contents of the register (which remain unchanged
+until a subsequent "x" or similar command) AFTER
+the cursor.
+
+
+
+On Your Own
+-----------
+
+Find out what [X] (upper-case) does in Vi Normal
+Mode. Hint: it's simlar to [x] (lower-case).
+
+
+
+Further Reading
+---------------
+
+The READLINE section of the Bash man page.
+Type
+
+        man bash
+
+at the command line or see <https://www.gnu.org/
+software/bash/manual/html_node/Command-Line-
+Editing.html>
